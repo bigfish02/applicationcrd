@@ -1,0 +1,11 @@
+apiVersion: xiaohongshu.com/v1
+kind: Application
+metadata:
+  name: edith
+spec:
+  template: "shequ-java"
+  owner: "liuding@xiaohongshu.com"
+  type: "service"
+  childApps:
+    - "edith"
+    - "edith-xx"
