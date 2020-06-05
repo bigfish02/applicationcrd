@@ -5,7 +5,9 @@ metadata:
 spec:
   template: "shequ-java"
   owner: "liuding@xiaohongshu.com"
-  type: "service"
+  public: true
   childApps:
-    - "edith"
-    - "edith-xx"
+    - name: "edith-sit-adchips"
+      controller: "deployment"
+    - name: "edith-sit-stable"
+      controller: "statefulset"

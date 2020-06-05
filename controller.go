@@ -170,7 +170,7 @@ func (c *Controller) syncHandler(key string) error {
 	app, err := c.applicationLister.Applications(namespace).Get(name)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			klog.Infof("start deleting application: %s in namespace", name, namespace)
+			klog.Infof("start deleting application: %s in namespace: %s", name, namespace)
 			return nil
 		}
 		return err

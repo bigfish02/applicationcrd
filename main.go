@@ -21,15 +21,15 @@ func main() {
 	kubeconfig := flag.String("kubeconfig", path.Join(home, "./.kube", "config"), "Path to kubeconfig file")
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
-		klog.Fatalf("Error Building kubeconfig: %f\n", err.Error())
+		klog.Fatalf("Error Building kubeconfig: %s\n", err.Error())
 	}
 	kubeClient, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		klog.Fatalf("Error New kubernetes client: %f\n", err.Error())
+		klog.Fatalf("Error New kubernetes client: %s\n", err.Error())
 	}
 	crdClient, err := clientset.NewForConfig(config)
 	if err != nil {
-		klog.Fatalf("Error New application clientset: %f\n", err.Error())
+		klog.Fatalf("Error New application clientset: %s\n", err.Error())
 	}
 	kubeInformerFactory := kubeinformers.NewSharedInformerFactory(kubeClient, time.Second*30)
 	crdInformerFactory := crdinformers.NewSharedInformerFactory(crdClient, time.Second*30)

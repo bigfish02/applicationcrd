@@ -30,10 +30,16 @@ type ApplicationSpec struct {
 	// Cidr and Gateway are example custom spec fields
 	//
 	// this is where you would put your custom resource data
-	Owner     string   `json:"owner"`
-	Type      string   `json:"type"`
-	Template  string   `json:"template"`
-	ChildApps []string `json:"childApps"`
+	Owner     string             `json:"owner"`
+	Public    bool               `json:"public"`
+	Template  string             `json:"template"`
+	ChildApps []ChildApplication `json:"childApps"`
+}
+
+type ChildApplication struct {
+	Name       string `json:"name"`
+	Controller string `json:"controller"`
+	Type       string `json:"type"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
