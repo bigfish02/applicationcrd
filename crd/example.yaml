@@ -1,13 +1,16 @@
 apiVersion: xiaohongshu.com/v1
 kind: Application
 metadata:
-  name: edith
+  name: ones
 spec:
   template: "shequ-java"
   owner: "liuding@xiaohongshu.com"
   public: true
+  namespace: qa
+  imageRepository: qa
+  imageName: ones
+  gitAddr: "git@code.devops.xiaohongshu.com:devops/ones.git"
   childApps:
-    - name: "edith-sit-adchips"
+    - name: "ones-service-default"
       controller: "deployment"
-    - name: "edith-sit-stable"
-      controller: "statefulset"
+      type: "Service"

@@ -30,10 +30,14 @@ type ApplicationSpec struct {
 	// Cidr and Gateway are example custom spec fields
 	//
 	// this is where you would put your custom resource data
-	Owner     string             `json:"owner"`
-	Public    bool               `json:"public"`
-	Template  string             `json:"template"`
-	ChildApps []ChildApplication `json:"childApps"`
+	Owner           string             `json:"owner"`
+	Public          bool               `json:"public"`
+	Template        string             `json:"template"`
+	ImageRepository string             `json:"imageRepository"`
+	ImageName       string             `json:"imageName"`
+	Namespace       string             `json:"namespace"`
+	GitAddr         string             `json:GitAddr`
+	ChildApps       []ChildApplication `json:"childApps"`
 }
 
 type ChildApplication struct {
