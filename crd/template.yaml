@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <>
+spec:
+  selector:
+    matchLabels:
+      app: <appNamae>
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: <appName>
+    spec:
+      containers:
+        - name: <appName>
+      image: centos
+      ports:
+        - containerPort: 80

@@ -36,7 +36,7 @@ type ApplicationSpec struct {
 	ImageRepository string             `json:"imageRepository"`
 	ImageName       string             `json:"imageName"`
 	Namespace       string             `json:"namespace"`
-	GitAddr         string             `json:GitAddr`
+	GitAddr         string             `json:"GitAddr"`
 	ChildApps       []ChildApplication `json:"childApps"`
 }
 
@@ -44,6 +44,7 @@ type ChildApplication struct {
 	Name       string `json:"name"`
 	Controller string `json:"controller"`
 	Type       string `json:"type"`
+	Yaml       string `json:"yaml"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
