@@ -1,15 +1,16 @@
 package signals
 
 import (
-	"github.com/golang/glog"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/golang/glog"
 )
 
 var onlyOne = make(chan struct{})
 
-func SetupSignalHandler() <- chan struct{} {
+func SetupSignalHandler() <-chan struct{} {
 	// panics when called twice
 	close(onlyOne)
 	stopCh := make(chan struct{})

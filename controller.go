@@ -30,6 +30,14 @@ import (
 )
 
 const controllerAgentName = "application-controller"
+const (
+	// SuccessSynced is used as part of the Event 'reason' when a Network is synced
+	SuccessSynced = "Synced"
+
+	// MessageResourceSynced is the message used for an Event fired when a Network
+	// is synced successfully
+	MessageResourceSynced = "Application synced successfully"
+)
 
 type Controller struct {
 	kubeclientset        kubernetes.Interface
@@ -114,11 +122,12 @@ func (c *Controller) Run(threadiness int, stopCh <-chan struct{}) error {
 	defer utilruntime.HandleCrash()
 	defer c.workqueue.ShutDown()
 	klog.Info("Starting application controller loop")
+	klog.Info("Waiting for informer caches to sync")
 	if ok := cache.WaitForCacheSync(stopCh, c.deploymentSynced, c.applicationSynced); !ok {
 		return fmt.Errorf("failed to wait for caches to sync")
 	}
-	klog.Info("Start workers")
 	for i := 0; i < threadiness; i++ {
+		klog.Infof("Start workers: %d", i)
 		go wait.Until(c.runWorker, time.Second, stopCh)
 	}
 	<-stopCh
@@ -134,11 +143,15 @@ func (c *Controller) runWorker() {
 
 func (c *Controller) processNextWorkItem() bool {
 	obj, shutdown := c.workqueue.Get()
+	if shutdown {
+		return false
+	}
 	err := func(obj interface{}) error {
 		defer c.workqueue.Done(obj)
 		var key string
 		var ok bool
 		if key, ok = obj.(string); !ok {
+			// 这个 obj 不合法，直接从队列删除
 			c.workqueue.Forget(obj)
 			utilruntime.HandleError(fmt.Errorf("expected string in workqueue but got %v", obj))
 			return nil
@@ -155,9 +168,6 @@ func (c *Controller) processNextWorkItem() bool {
 		utilruntime.HandleError(err)
 		return true
 	}
-	if shutdown {
-		return false
-	}
 	return true
 }
 
@@ -170,11 +180,14 @@ func (c *Controller) syncHandler(key string) error {
 	app, err := c.applicationLister.Applications(namespace).Get(name)
 	if err != nil {
 		if errors.IsNotFound(err) {
+			// 拿不到数据，说明删除了该对象
 			klog.Infof("start deleting application: %s in namespace: %s", name, namespace)
+			// TODO: 做删除销毁的事情
 			return nil
 		}
 		return err
 	}
 	klog.Infof("start to process %v", app)
+	c.recorder.Event(app, corev1.EventTypeNormal, SuccessSynced, MessageResourceSynced)
 	return nil
 }

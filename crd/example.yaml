@@ -2,20 +2,20 @@ apiVersion: xiaohongshu.com/v1
 kind: Application
 metadata:
   name: ones
-  spec:
-    template: "shequ-java"
-    owner: "liuding@xiaohongshu.com"
-    public: true
-    namespace: qa
-    imageRepository: qa
-    imageName: ones
-    gitAddr: "git@code.devops.xiaohongshu.com:devops/ones.git"
-    childApps:
-      - name: "ones-service-default"
-        controller: "deployment"
-        type: "Service"
-        yaml: ""
-      - name: "ones-v2"
-        controller: "service"
-        type: "Service"
-        yaml: ""
+spec:
+  template: "shequ-java"
+  owner: "liuding@xiaohongshu.com"
+  public: true
+  namespace: qa
+  imageRepository: qa
+  imageName: ones
+  gitAddr: "git@code.devops.xiaohongshu.com:devops/ones.git"
+  childApps:
+    - name: "ones-service-default"
+      controller: "deployment"
+      type: "Service"
+      yaml: ""
+    - name: "ones-v2"
+      controller: "service"
+      type: "Service"
+      yaml: ""
