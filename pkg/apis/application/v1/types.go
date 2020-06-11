@@ -36,7 +36,7 @@ type ApplicationSpec struct {
 	ImageRepository string             `json:"imageRepository"`
 	ImageName       string             `json:"imageName"`
 	Namespace       string             `json:"namespace"`
-	GitAddr         string             `json:"GitAddr"`
+	GitAddr         string             `json:"gitAddr"`
 	ChildApps       []ChildApplication `json:"childApps"`
 }
 
