@@ -6,7 +6,6 @@ spec:
   template: "shequ-java"
   owner: "liuding@xiaohongshu.com"
   public: true
-  namespace: qa
   imageRepository: qa
   imageName: ones
   gitAddr: "git@code.devops.xiaohongshu.com:devops/ones.git"
@@ -16,6 +15,6 @@ spec:
       type: "Service"
       yaml: ""
     - name: "ones-v2"
-      controller: "service"
+      controller: "statefulset"
       type: "Service"
       yaml: ""
