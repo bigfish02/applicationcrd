@@ -46,7 +46,7 @@ type ChildApplication struct {
 	Name            string `json:"name"`
 	Controller      string `json:"controller"`
 	Type            string `json:"type"`
-	Port            string `json:"port"`
+	Port            int    `json:"port"`
 	Command         string `json:"command"`
 	IngressName     string `json:"ingressName"`
 	ImageName       string `json:"imageName"`
