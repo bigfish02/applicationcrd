@@ -43,11 +43,14 @@ type ApplicationSpec struct {
 }
 
 type ChildApplication struct {
-	Name       string `json:"name"`
-	Controller string `json:"controller"`
-	Type       string `json:"type"`
-	Port       string `json:"port"`
-	Command    string `json:"command"`
+	Name            string `json:"name"`
+	Controller      string `json:"controller"`
+	Type            string `json:"type"`
+	Port            string `json:"port"`
+	Command         string `json:"command"`
+	IngressName     string `json:"ingressName"`
+	ImageName       string `json:"imageName"`
+	ImageRepository string `json:"imageRepository"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
