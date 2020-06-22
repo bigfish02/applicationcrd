@@ -37,6 +37,7 @@ type ApplicationSpec struct {
 	ImageName       string             `json:"imageName"`
 	Namespace       string             `json:"namespace"`
 	ServiceType     string             `json:"serviceType"`
+	DefaultPort     int                `json:"defaultPort"`
 	GitAddr         string             `json:"gitAddr"`
 	ChildApps       []ChildApplication `json:"childApps"`
 }
