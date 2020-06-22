@@ -45,7 +45,8 @@ type ChildApplication struct {
 	Name       string `json:"name"`
 	Controller string `json:"controller"`
 	Type       string `json:"type"`
-	Yaml       string `json:"yaml"`
+	Port       string `json:"port"`
+	Command    string `json:"command"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
