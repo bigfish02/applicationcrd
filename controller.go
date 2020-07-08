@@ -187,7 +187,7 @@ func (c *Controller) syncHandler(key string) error {
 		}
 		return err
 	}
-	klog.Infof("start to process %v", app)
-	c.recorder.Event(app, corev1.EventTypeNormal, SuccessSynced, MessageResourceSynced)
+	klog.Infof("start to process %v", app.Name)
+	//c.recorder.Event(app, corev1.EventTypeNormal, SuccessSynced, MessageResourceSynced)
 	return nil
 }
