@@ -51,6 +51,8 @@ type ChildApplication struct {
 	Debug           bool   `json:"debug"`
 	ImageName       string `json:"imageName"`
 	ImageRepository string `json:"imageRepository"`
+	TriggerTag      string `json:"triggerTag"`
+	TriggerEnable   bool   `json:"triggerEnable"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
