@@ -43,21 +43,27 @@ type ApplicationSpec struct {
 }
 
 type ChildApplication struct {
-	Name            string `json:"name"`
-	Controller      string `json:"controller"`
-	Type            string `json:"type"`
-	Port            int    `json:"port"`
-	Command         string `json:"command"`
-	Debug           bool   `json:"debug"`
-	ImageName       string `json:"imageName"`
-	ImageRepository string `json:"imageRepository"`
-	TriggerTag      string `json:"triggerTag"`
-	TriggerEnable   bool   `json:"triggerEnable"`
+	Name            string     `json:"name"`
+	Controller      string     `json:"controller"`
+	Type            string     `json:"type"`
+	Port            int        `json:"port"`
+	Command         string     `json:"command"`
+	Debug           bool       `json:"debug"`
+	ImageName       string     `json:"imageName"`
+	ImageRepository string     `json:"imageRepository"`
+	TriggerTag      string     `json:"triggerTag"`
+	TriggerEnable   bool       `json:"triggerEnable"`
+	Pipelines       []Pipeline `json:"pipelines"`
+}
+
+type Pipeline struct {
+	Name        string
+	Description string
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// NetworkList is a list of Network resources
+// ApplicationList is a list of Application resources
 type ApplicationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`

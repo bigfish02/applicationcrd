@@ -18,3 +18,8 @@ spec:
       controller: "statefulset"
       type: "Service"
       yaml: ""
+  resources:
+    - deployment: |
+        apiVersion: xx
+    - service: |
+        xx: xx
