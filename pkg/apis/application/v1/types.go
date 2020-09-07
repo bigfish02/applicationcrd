@@ -55,8 +55,8 @@ type ChildApplication struct {
 }
 
 type Pipeline struct {
-	Name        string
-	Description string
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
