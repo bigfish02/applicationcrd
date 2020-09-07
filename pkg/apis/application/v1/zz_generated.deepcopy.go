@@ -115,6 +115,11 @@ func (in *ChildApplication) DeepCopyInto(out *ChildApplication) {
 		*out = make([]Pipeline, len(*in))
 		copy(*out, *in)
 	}
+	if in.Clusters != nil {
+		in, out := &in.Clusters, &out.Clusters
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 

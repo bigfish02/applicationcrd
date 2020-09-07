@@ -27,9 +27,6 @@ type Application struct {
 
 // NetworkSpec is the spec for a Network resource
 type ApplicationSpec struct {
-	// Cidr and Gateway are example custom spec fields
-	//
-	// this is where you would put your custom resource data
 	Owner           string             `json:"owner"`
 	Public          bool               `json:"public"`
 	Template        string             `json:"template"`
@@ -54,6 +51,7 @@ type ChildApplication struct {
 	TriggerTag      string     `json:"triggerTag"`
 	TriggerEnable   bool       `json:"triggerEnable"`
 	Pipelines       []Pipeline `json:"pipelines"`
+	Clusters        []string   `json:"clusters"`
 }
 
 type Pipeline struct {
