@@ -39,19 +39,20 @@ type ApplicationSpec struct {
 	ChildApps       []ChildApplication `json:"childApps"`
 }
 
+// Controllers map[cluster]map[name]controllerType
 type ChildApplication struct {
-	Name            string     `json:"name"`
-	Controller      string     `json:"controller"`
-	Type            string     `json:"type"`
-	Port            int        `json:"port"`
-	Command         string     `json:"command"`
-	Debug           bool       `json:"debug"`
-	ImageName       string     `json:"imageName"`
-	ImageRepository string     `json:"imageRepository"`
-	TriggerTag      string     `json:"triggerTag"`
-	TriggerEnable   bool       `json:"triggerEnable"`
-	Pipelines       []Pipeline `json:"pipelines"`
-	Clusters        []string   `json:"clusters"`
+	Name            string                       `json:"name"`
+	Controller      string                       `json:"controller"`
+	Type            string                       `json:"type"`
+	Port            int                          `json:"port"`
+	Command         string                       `json:"command"`
+	Debug           bool                         `json:"debug"`
+	ImageName       string                       `json:"imageName"`
+	ImageRepository string                       `json:"imageRepository"`
+	TriggerTag      string                       `json:"triggerTag"`
+	TriggerEnable   bool                         `json:"triggerEnable"`
+	Pipelines       []Pipeline                   `json:"pipelines"`
+	Controllers     map[string]map[string]string `json:"controllers"` // map[env]map[resource_name]controller
 }
 
 type Pipeline struct {

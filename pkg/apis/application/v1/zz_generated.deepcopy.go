@@ -115,10 +115,22 @@ func (in *ChildApplication) DeepCopyInto(out *ChildApplication) {
 		*out = make([]Pipeline, len(*in))
 		copy(*out, *in)
 	}
-	if in.Clusters != nil {
-		in, out := &in.Clusters, &out.Clusters
-		*out = make([]string, len(*in))
-		copy(*out, *in)
+	if in.Controllers != nil {
+		in, out := &in.Controllers, &out.Controllers
+		*out = make(map[string]map[string]string, len(*in))
+		for key, val := range *in {
+			var outVal map[string]string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = make(map[string]string, len(*in))
+				for key, val := range *in {
+					(*out)[key] = val
+				}
+			}
+			(*out)[key] = outVal
+		}
 	}
 	return
 }
