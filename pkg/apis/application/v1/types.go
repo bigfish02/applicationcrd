@@ -40,7 +40,9 @@ type ApplicationSpec struct {
 }
 
 // Controllers map[cluster]map[name]controllerType
+// Changing 保存当前正在运行的 pipelinerun 的名称
 type ChildApplication struct {
+	Changing        string                       `json:"changing"`
 	Name            string                       `json:"name"`
 	Controller      string                       `json:"controller"`
 	Type            string                       `json:"type"`
