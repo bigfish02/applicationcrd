@@ -42,7 +42,7 @@ type ApplicationSpec struct {
 type Controller struct {
 	Cluster string `json:"cluster"`
 	Name    string `json:"name"`
-	Type    string `json:"name"` // Deployment,CloneSet
+	Type    string `json:"type"` // Deployment,CloneSet
 }
 
 // Controllers map[cluster]map[name]controllerType
