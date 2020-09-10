@@ -39,22 +39,28 @@ type ApplicationSpec struct {
 	ChildApps       []ChildApplication `json:"childApps"`
 }
 
+type Controller struct {
+	Cluster string `json:"cluster"`
+	Name    string `json:"name"`
+	Type    string `json:"name"` // Deployment,CloneSet
+}
+
 // Controllers map[cluster]map[name]controllerType
 // Changing 保存当前正在运行的 pipelinerun 的名称
 type ChildApplication struct {
-	Changing        string                       `json:"changing"`
-	Name            string                       `json:"name"`
-	Controller      string                       `json:"controller"`
-	Type            string                       `json:"type"`
-	Port            int                          `json:"port"`
-	Command         string                       `json:"command"`
-	Debug           bool                         `json:"debug"`
-	ImageName       string                       `json:"imageName"`
-	ImageRepository string                       `json:"imageRepository"`
-	TriggerTag      string                       `json:"triggerTag"`
-	TriggerEnable   bool                         `json:"triggerEnable"`
-	Pipelines       []Pipeline                   `json:"pipelines"`
-	Controllers     map[string]map[string]string `json:"controllers"` // map[env]map[resource_name]controller
+	Changing        string       `json:"changing"`
+	Name            string       `json:"name"`
+	Controller      string       `json:"controller"`
+	Type            string       `json:"type"`
+	Port            int          `json:"port"`
+	Command         string       `json:"command"`
+	Debug           bool         `json:"debug"`
+	ImageName       string       `json:"imageName"`
+	ImageRepository string       `json:"imageRepository"`
+	TriggerTag      string       `json:"triggerTag"`
+	TriggerEnable   bool         `json:"triggerEnable"`
+	Pipelines       []Pipeline   `json:"pipelines"`
+	Controllers     []Controller `json:"controllers"` // map[env]map[resource_name]controller
 }
 
 type Pipeline struct {
