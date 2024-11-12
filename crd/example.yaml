@@ -1,25 +1,21 @@
 apiVersion: xiaohongshu.com/v1
 kind: Application
 metadata:
-  name: ones
+  name: cnp-web-console
 spec:
   template: "shequ-java"
-  owner: "liuding@xiaohongshu.com"
+  owner: "lvjin@cmss.chinamobile.com"
   public: true
-  imageRepository: qa
-  imageName: ones
+  imageRepository: cnp/kubesphere
+  imageName: cnp-web-console
+  namespace: cnp-web-console
   gitAddr: "git@code.devops.xiaohongshu.com:devops/ones.git"
   childApps:
-    - name: "ones-service-default"
+    - name: "cnp-web-console"
       controller: "deployment"
       type: "Service"
       yaml: ""
-    - name: "ones-v2"
-      controller: "statefulset"
-      type: "Service"
-      yaml: ""
-  resources:
-    - deployment: |
-        apiVersion: xx
-    - service: |
-        xx: xx
+      resources:
+        - name: cnp-web-console
+          type: deployment
+          cluster: sit

@@ -39,6 +39,7 @@ type ApplicationSpec struct {
 	ChildApps       []ChildApplication `json:"childApps"`
 }
 
+// 一个服务可以有多个集群
 type Controller struct {
 	Cluster string `json:"cluster"`
 	Name    string `json:"name"`
@@ -60,7 +61,7 @@ type ChildApplication struct {
 	TriggerTag      string       `json:"triggerTag"`
 	TriggerEnable   bool         `json:"triggerEnable"`
 	Pipelines       []Pipeline   `json:"pipelines"`
-	Controllers     []Controller `json:"controllers"` // map[env]map[resource_name]controller
+	Controllers     []Controller `json:"resources"` // map[env]map[resource_name]controller
 }
 
 type Pipeline struct {
