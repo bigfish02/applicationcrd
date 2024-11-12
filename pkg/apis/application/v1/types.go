@@ -60,7 +60,7 @@ type ChildApplication struct {
 	TriggerTag      string       `json:"triggerTag"`
 	TriggerEnable   bool         `json:"triggerEnable"`
 	Pipelines       []Pipeline   `json:"pipelines"`
-	Controllers     []Controller `json:"controllers"` // map[env]map[resource_name]controller
+	Controllers     []Controller `json:"resources"` // map[env]map[resource_name]controller
 }
 
 type Pipeline struct {
