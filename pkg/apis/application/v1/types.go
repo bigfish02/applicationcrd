@@ -8,7 +8,7 @@ import (
 // +genclient:noStatus
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// Network describes a Network resource
+// Application 定义一个应用
 type Application struct {
 	// TypeMeta is the metadata for the resource, like kind and apiversion
 	metav1.TypeMeta `json:",inline"`
@@ -25,7 +25,7 @@ type Application struct {
 	Spec ApplicationSpec `json:"spec"`
 }
 
-// NetworkSpec is the spec for a Network resource
+// ApplicationSpec is the spec for a Network resource
 type ApplicationSpec struct {
 	Owner           string             `json:"owner"`
 	Public          bool               `json:"public"`
@@ -45,8 +45,6 @@ type Controller struct {
 	Type    string `json:"type"` // Deployment,CloneSet
 }
 
-// Controllers map[cluster]map[name]controllerType
-// Changing 保存当前正在运行的 pipelinerun 的名称
 type ChildApplication struct {
 	Changing        string       `json:"changing"`
 	Name            string       `json:"name"`

@@ -19,6 +19,9 @@ limitations under the License.
 package versioned
 
 import (
+	"fmt"
+	"net/http"
+
 	xiaohongshuv1 "github.com/bigfish02/applicationcrd/pkg/generated/clientset/versioned/typed/application/v1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
@@ -28,12 +31,9 @@ import (
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
 	XiaohongshuV1() xiaohongshuv1.XiaohongshuV1Interface
-	// Deprecated: please explicitly pick a version if possible.
-	Xiaohongshu() xiaohongshuv1.XiaohongshuV1Interface
 }
 
-// Clientset contains the clients for groups. Each group has exactly one
-// version included in a Clientset.
+// Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
 	xiaohongshuV1 *xiaohongshuv1.XiaohongshuV1Client
@@ -41,12 +41,6 @@ type Clientset struct {
 
 // XiaohongshuV1 retrieves the XiaohongshuV1Client
 func (c *Clientset) XiaohongshuV1() xiaohongshuv1.XiaohongshuV1Interface {
-	return c.xiaohongshuV1
-}
-
-// Deprecated: Xiaohongshu retrieves the default version of XiaohongshuClient.
-// Please explicitly pick a version.
-func (c *Clientset) Xiaohongshu() xiaohongshuv1.XiaohongshuV1Interface {
 	return c.xiaohongshuV1
 }
 
@@ -59,19 +53,47 @@ func (c *Clientset) Discovery() discovery.DiscoveryInterface {
 }
 
 // NewForConfig creates a new Clientset for the given config.
+// If config's RateLimiter is not set and QPS and Burst are acceptable,
+// NewForConfig will generate a rate-limiter in configShallowCopy.
+// NewForConfig is equivalent to NewForConfigAndClient(c, httpClient),
+// where httpClient was generated with rest.HTTPClientFor(c).
 func NewForConfig(c *rest.Config) (*Clientset, error) {
 	configShallowCopy := *c
-	if configShallowCopy.RateLimiter == nil && configShallowCopy.QPS > 0 {
-		configShallowCopy.RateLimiter = flowcontrol.NewTokenBucketRateLimiter(configShallowCopy.QPS, configShallowCopy.Burst)
+
+	if configShallowCopy.UserAgent == "" {
+		configShallowCopy.UserAgent = rest.DefaultKubernetesUserAgent()
 	}
-	var cs Clientset
-	var err error
-	cs.xiaohongshuV1, err = xiaohongshuv1.NewForConfig(&configShallowCopy)
+
+	// share the transport between all clients
+	httpClient, err := rest.HTTPClientFor(&configShallowCopy)
 	if err != nil {
 		return nil, err
 	}
 
-	cs.DiscoveryClient, err = discovery.NewDiscoveryClientForConfig(&configShallowCopy)
+	return NewForConfigAndClient(&configShallowCopy, httpClient)
+}
+
+// NewForConfigAndClient creates a new Clientset for the given config and http client.
+// Note the http client provided takes precedence over the configured transport values.
+// If config's RateLimiter is not set and QPS and Burst are acceptable,
+// NewForConfigAndClient will generate a rate-limiter in configShallowCopy.
+func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset, error) {
+	configShallowCopy := *c
+	if configShallowCopy.RateLimiter == nil && configShallowCopy.QPS > 0 {
+		if configShallowCopy.Burst <= 0 {
+			return nil, fmt.Errorf("burst is required to be greater than 0 when RateLimiter is not set and QPS is set to greater than 0")
+		}
+		configShallowCopy.RateLimiter = flowcontrol.NewTokenBucketRateLimiter(configShallowCopy.QPS, configShallowCopy.Burst)
+	}
+
+	var cs Clientset
+	var err error
+	cs.xiaohongshuV1, err = xiaohongshuv1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	if err != nil {
+		return nil, err
+	}
+
+	cs.DiscoveryClient, err = discovery.NewDiscoveryClientForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -81,11 +103,11 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 // NewForConfigOrDie creates a new Clientset for the given config and
 // panics if there is an error in the config.
 func NewForConfigOrDie(c *rest.Config) *Clientset {
-	var cs Clientset
-	cs.xiaohongshuV1 = xiaohongshuv1.NewForConfigOrDie(c)
-
-	cs.DiscoveryClient = discovery.NewDiscoveryClientForConfigOrDie(c)
-	return &cs
+	cs, err := NewForConfig(c)
+	if err != nil {
+		panic(err)
+	}
+	return cs
 }
 
 // New creates a new Clientset for the given RESTClient.
